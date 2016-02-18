@@ -1,0 +1,101 @@
+﻿<Window x:Class="UserClient.Dialogs.EditPieceDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UserClient.Dialogs"
+             xmlns:Helper="clr-namespace:UserClient.Helper"
+             mc:Ignorable="d" 
+             Width="800px" Height="600px">
+    <i:Interaction.Behaviors>
+        <Helper:EventToCommandBehavior Command="{Binding ClosingCmd}" Event="Closing" PassArguments="True" />
+    </i:Interaction.Behaviors>
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="5 5 5 5"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Margin" Value="5 5 5 5"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75px" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35px" />
+                <RowDefinition Height="35px"  />
+                <RowDefinition Height="35px"  />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" >ID:</TextBlock>
+            <TextBox   Grid.Row="0" Grid.Column="1" IsEnabled="False" Text="{Binding ID}"></TextBox>
+            <TextBlock Grid.Row="1" Grid.Column="0" >Titel:</TextBlock>
+            <TextBox   Grid.Row="1" Grid.Column="1" Text="{Binding Title}"></TextBox>
+            <TextBlock Grid.Row="2" Grid.Column="0" >Original:</TextBlock>
+            <DockPanel  Grid.Row="2" Grid.Column="1" LastChildFill="True">
+
+                <TextBox DockPanel.Dock="Right" Width="50px" Text="{Binding ArchiveNumber}">
+                </TextBox>
+                <TextBlock Margin="5,5,0,5" DockPanel.Dock="Right">#</TextBlock>
+                <ComboBox ItemsSource="{Binding ArchiveTypes}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding SelectedArchiveType}" DockPanel.Dock="Right" Margin="5"></ComboBox>
+            </DockPanel>
+
+            <DockPanel Grid.Row="3" Grid.Column="0" >
+                <TextBlock DockPanel.Dock="Top" VerticalAlignment="Top">Parts:</TextBlock>
+                <Button Command="{Binding AddPartCmd}" DockPanel.Dock="Top" Width="45" HorizontalAlignment="Right"  VerticalAlignment="Top">Add</Button>
+            </DockPanel>
+            <DataGrid IsReadOnly="True" Margin="5" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
+                <i:Interaction.Behaviors>
+                    <Helper:EventToCommandBehavior Command="{Binding EditPartCmd}" Event="MouseDoubleClick" PassArguments="True" />
+                </i:Interaction.Behaviors>
+            </DataGrid>
+        </Grid>
+
+        <StackPanel Grid.Column="1">
+            <DockPanel LastChildFill="False">
+                <TextBlock HorizontalAlignment="Left">Genres</TextBlock>
+                <Button Command="{Binding AddGenreCmd}" DockPanel.Dock="Right" Margin="0,5,5,2">Add</Button>
+                <ComboBox Text="{Binding SelectedGenreValue}" ItemsSource="{Binding AllGenres}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedGenreItem}" DockPanel.Dock="Right" Width="150px" IsEditable="True" Margin="0,5,5,2">
+                    <ComboBox.InputBindings>
+                        <KeyBinding Command="{Binding AddGenreCmd}" Key="Enter" />
+                    </ComboBox.InputBindings>
+                </ComboBox>
+            </DockPanel>
+            <DataGrid Width="300" Height="120px" ItemsSource="{Binding Genres}" SelectedItem="{Binding SelectedGenre}">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Löschen" Command="{Binding DeleteGenreCmd}" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+            <DockPanel LastChildFill="False">
+                <TextBlock HorizontalAlignment="Left">Interprets</TextBlock>
+                <Button Command="{Binding AddInterpretCmd}" DockPanel.Dock="Right" Margin="0,5,5,2">Add</Button>
+                <ComboBox Text="{Binding SelectedInterpretValue}" ItemsSource="{Binding AllInterprets}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedInterpretItem}" DockPanel.Dock="Right" Width="150px" IsEditable="True" Margin="0,5,5,2">
+                    <ComboBox.InputBindings>
+                        <KeyBinding Command="{Binding AddInterpretCmd}" Key="Enter" />
+                    </ComboBox.InputBindings>
+                </ComboBox>
+            </DockPanel>
+            <DataGrid Width="300" Height="120px" ItemsSource="{Binding Interprets}" SelectedItem="{Binding SelectedInterpret}">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Löschen" Command="{Binding DeleteInterpretCmd}" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+            <TextBlock HorizontalAlignment="Left" >Comment</TextBlock>
+            <TextBox Text="{Binding Comment}" Width="300" Height="120px"></TextBox>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -36,7 +36,22 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MigraDoc.DocumentObjectModel-WPF">
+      <HintPath>..\..\..\..\Desktop\PDFsharp-MigraDocFoundation-Assemblies-1_32\WPF\MigraDoc.DocumentObjectModel-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.Rendering-WPF">
+      <HintPath>..\..\..\..\Desktop\PDFsharp-MigraDocFoundation-Assemblies-1_32\WPF\MigraDoc.Rendering-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.RtfRendering-WPF">
+      <HintPath>..\..\..\..\Desktop\PDFsharp-MigraDocFoundation-Assemblies-1_32\WPF\MigraDoc.RtfRendering-WPF.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="PdfSharp-WPF">
+      <HintPath>..\..\..\..\Desktop\PDFsharp-MigraDocFoundation-Assemblies-1_32\WPF\PdfSharp-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting-WPF">
+      <HintPath>..\..\..\..\Desktop\PDFsharp-MigraDocFoundation-Assemblies-1_32\WPF\PdfSharp.Charting-WPF.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -55,27 +70,130 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\EditGenreDialog.xaml.cs">
+      <DependentUpon>EditGenreDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\EditInterpretDialog.xaml.cs">
+      <DependentUpon>EditInterpretDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\EditPartDialog.xaml.cs">
+      <DependentUpon>EditPartDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\EditPieceDialog.xaml.cs">
+      <DependentUpon>EditPieceDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\LogView.xaml.cs">
+      <DependentUpon>LogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SelectPdfDialog.xaml.cs">
+      <DependentUpon>SelectPdfDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalResources.cs" />
     <Compile Include="Helper\ActionCommand.cs" />
     <Compile Include="Helper\EventToCommandBehavior.cs" />
+    <Compile Include="Helper\WebBrowserUtility.cs" />
     <Compile Include="MySqlHelper.cs" />
     <Compile Include="Helper\RelayCommand.cs" />
     <Compile Include="Helper\ViewModelBase.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="ViewModel\DialogBaseVM.cs" />
+    <Compile Include="ViewModel\EditGenreVM.cs" />
+    <Compile Include="ViewModel\EditInterpretVM.cs" />
+    <Compile Include="ViewModel\EditPartVM.cs" />
+    <Compile Include="ViewModel\EditPieceVM.cs" />
+    <Compile Include="ViewModel\GenreListVM.cs" />
+    <Compile Include="ViewModel\InterpretListVM.cs" />
+    <Compile Include="ViewModel\Log.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
-    <Compile Include="ViewModel\PieceListEntryVM.cs" />
+    <Compile Include="ViewModel\PieceListVM.cs" />
+    <Compile Include="ViewModel\SelectPdfDialogVM.cs" />
+    <Compile Include="View\GenreListView.xaml.cs">
+      <DependentUpon>GenreListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InterpretListView.xaml.cs">
+      <DependentUpon>InterpretListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\PieceListView.xaml.cs">
+      <DependentUpon>PieceListView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Dialogs\EditGenreDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\EditInterpretDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\EditPartDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\EditPieceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\LogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SelectPdfDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GenreListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InterpretListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\PieceListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Acrobat">
+      <Guid>{E64169B3-3592-47D2-816E-602C5C13F328}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="AcroPDFLib">
+      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="AxAcroPDFLib">
+      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

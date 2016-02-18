@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="UserClient.View.GenreListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UserClient.View"
+             xmlns:Helper="clr-namespace:UserClient.Helper"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <i:Interaction.Behaviors>
+        <Helper:EventToCommandBehavior Command="{Binding KeyUpCmd}" Event="KeyUp" PassArguments="True" />
+    </i:Interaction.Behaviors>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Genres}" SelectedItem="{Binding SelectedGenre}" IsReadOnly="True">
+            <i:Interaction.Behaviors>
+                <Helper:EventToCommandBehavior Command="{Binding MouseDoubleClickCmd}" Event="MouseDoubleClick" PassArguments="True" />
+            </i:Interaction.Behaviors>
+
+            <DataGrid.ContextMenu>
+                <ContextMenu  >
+                    <MenuItem Header="Genre Anzeigen" Command="{Binding ShowPiecesCmd}" />
+                    <MenuItem Header="Bearbeiten" Command="{Binding MouseDoubleClickCmd}" />
+                    <MenuItem Header="Löschen" Command="{Binding DeleteGenreCmd}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+        <DockPanel  Grid.Row="1" LastChildFill="False">
+            <DockPanel DockPanel.Dock="Right">
+                <Button  Command="{Binding NewGenreCmd}">Neues Genre</Button>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</UserControl>

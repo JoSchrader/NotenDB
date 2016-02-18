@@ -7,6 +7,9 @@ using UserClient.Helper;
 using UserClient.ViewModel;
 using UserClient.View;
 using MySql.Data.MySqlClient;
+using UserClient.Dialogs;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace UserClient
 {
@@ -15,17 +18,19 @@ namespace UserClient
         [STAThread]
         static void Main(string[] args)
         {
-            MySqlHelper helper = new MySqlHelper("localhost", 3306, "client", "1122", "world");
-            helper.Open();
-            var list = helper.GetPieceList();
-            helper.Close();
+            Settings.Load();
+            MySqlHelper.Setup("localhost", 3306, "root", "1122", "world");
+            GlobalResources.Setup();
 
             MainWindowView mwv = new MainWindowView();
             MainWindowVM mwvm = new MainWindowVM();
-            mwvm.PieceList = list;
             mwv.DataContext = mwvm;
 
+            MySqlHelper.RefreshAll();
             mwv.ShowDialog();
+
+            Settings.Save();
+            Environment.Exit(0);
         }
     }
 }
