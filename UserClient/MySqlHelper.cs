@@ -9,7 +9,6 @@ using UserClient.ViewModel;
 
 namespace UserClient
 {
-    public delegate void RefreshDelegate();
     public class MySqlHelper
     {
         MySqlConnection connection;

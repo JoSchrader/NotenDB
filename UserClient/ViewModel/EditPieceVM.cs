@@ -33,7 +33,6 @@ namespace UserClient.ViewModel
         Genre selectedGenreItem;
 
         string selectedInterpretValue;
-
         Interpret selectedInterpretItem;
 
         public EditPieceVM(int id)
@@ -67,8 +66,9 @@ namespace UserClient.ViewModel
             if (selectedPart != null)
             {
                 EditPartVM vm = new EditPartVM(selectedPart.ID);
-                EditPartDialog view = new EditPartDialog();
+                EditPartDialog view = new EditPartDialog(ref vm.loadPdf);
                 view.DataContext = vm;
+                vm.Setup();
                 view.Show();
             }
         }

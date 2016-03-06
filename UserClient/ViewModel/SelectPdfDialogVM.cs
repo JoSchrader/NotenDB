@@ -22,10 +22,13 @@ namespace UserClient.ViewModel
         File selectedSelectedFile;
         string previewPath;
 
+        public StringDelegate loadPdf;
+
         public SelectPdfDialogVM(int partID)
         {
             this.partID = partID;
             Setup();
+            this.loadPdf = new StringDelegate(delegate (string a) { });
         }
 
         public void Setup()
@@ -233,7 +236,7 @@ namespace UserClient.ViewModel
         public string PreviewPath
         {
             get { return previewPath; }
-            set { previewPath = value; this.NotifyOfPropertyChange(() => this.PreviewPath); }
+            set { previewPath = value; this.NotifyOfPropertyChange(() => this.PreviewPath); this.loadPdf(previewPath); }
         }
     }
 

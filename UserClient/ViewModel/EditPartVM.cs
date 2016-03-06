@@ -20,16 +20,17 @@ namespace UserClient.ViewModel
         string pdfPath;
         string comment;
 
+        public StringDelegate loadPdf;
 
         public EditPartVM(int id)
         {
             this.id = id;
-            Setup();
+            loadPdf = new StringDelegate(delegate (string a) { });
         }
 
         public EditPartVM()
         {
-            Setup();
+            loadPdf = new StringDelegate(delegate (string a) { });
         }
 
         public void Setup()
@@ -55,26 +56,26 @@ namespace UserClient.ViewModel
             data = MySqlHelper.ExecuteQuery("select piece_title from piece where piece_id=" + pieceID + ";");
             PieceTitle = data[0][0];
 
-            if (System.IO.File.Exists(PredictedPdfPath())) 
-                pdfPath = "file://" + PredictedPdfPath();
+            if (System.IO.File.Exists(PredictedPdfPath()))
+                PdfPath = PredictedPdfPath();
             else
-                pdfPath = null; 
+                PdfPath = null;
 
             this.NotifyOfPropertyChange(() => this.PieceTitle);
-            this.NotifyOfPropertyChange(() => this.PdfPath);
             this.NotifyOfPropertyChange(() => this.Comment);
             this.NotifyOfPropertyChange(() => this.InstrumentTree);
         }
 
         public void ClosingExecute(System.ComponentModel.CancelEventArgs e)
         {
+            this.PdfPath = null;
             MySqlHelper.RefreshAll -= Refresh;
         }
 
         public void SelectPdfCmdExecute()
         {
-            SelectPdfDialog dlg = new SelectPdfDialog();
             SelectPdfDialogVM vm = new SelectPdfDialogVM(this.id);
+            SelectPdfDialog dlg = new SelectPdfDialog(ref vm.loadPdf);
             dlg.DataContext = vm;
             dlg.Show();
         }
@@ -88,7 +89,12 @@ namespace UserClient.ViewModel
         public string PdfPath
         {
             get { return pdfPath; }
-            set { pdfPath = value; this.NotifyOfPropertyChange(() => this.PdfPath); }
+
+            set
+            {
+                pdfPath = value;
+                this.NotifyOfPropertyChange(() => this.PdfPath); this.loadPdf(pdfPath);
+            }
         }
 
         public string Comment
@@ -118,5 +124,6 @@ namespace UserClient.ViewModel
             get;
             private set;
         }
+
     }
 }

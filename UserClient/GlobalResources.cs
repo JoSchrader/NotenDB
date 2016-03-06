@@ -47,6 +47,24 @@ namespace UserClient
             }
         }
 
+
+        public static string CopyPDF(string path)
+        {
+            string toPath = Settings.tempFolder + "\\" + System.IO.Path.GetRandomFileName() + ".pdf";
+            System.IO.File.Copy(path, toPath);
+            return toPath;
+        }
+
+        public static bool DeleteFile(string path)
+        {
+            try { System.IO.File.Delete(path); }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public static void Refresh()
         {
             instance.Refresh_Instance();
@@ -144,7 +162,7 @@ namespace UserClient
                 if (isSelected == false)
                     MySqlHelper.DeleteCMD("Delete from part_instrument where instrument_id=" + this.ID + " and part_id=" + partID + ";");
                 if (isSelected == true)
-                    MySqlHelper.AddCMD("INSERT INTO Part_instrument VALUES("+partID+","+ID+");");
+                    MySqlHelper.AddCMD("INSERT INTO Part_instrument VALUES(" + partID + "," + ID + ");");
             }
         }
 

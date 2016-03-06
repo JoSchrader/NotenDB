@@ -20,9 +20,14 @@ namespace UserClient.Dialogs
     /// </summary>
     public partial class EditPartDialog : Window
     {
-        public EditPartDialog()
+        public EditPartDialog(ref StringDelegate loadPdf)
         {
             InitializeComponent();
+
+            var uc = new UserClient.Controls.PdfHost();
+            this.WindowsFormsHost.Child = uc;
+
+            loadPdf += uc.LoadPdf;
         }
     }
 }

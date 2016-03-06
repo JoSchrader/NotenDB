@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UserClient.Controls;
 
 namespace UserClient.Dialogs
 {
@@ -20,14 +21,14 @@ namespace UserClient.Dialogs
     /// </summary>
     public partial class SelectPdfDialog : Window
     {
-        public SelectPdfDialog()
+        public SelectPdfDialog(ref StringDelegate loadPdfDelegate)
         {
             InitializeComponent();
-        }
 
-        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
+            var uc = new PdfHost();
+            this.WindowsFormHost.Child = uc;            
 
-        }
+            loadPdfDelegate += uc.LoadPdf;
+        }        
     }
 }
